@@ -15,9 +15,10 @@ public sealed class Step6_Responsible_AI(ITestOutputHelper output) : BaseTest(ou
     {
         // Create a kernel with OpenAI chat completion
         var builder = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey);
+            .AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey);
 
         builder.Services.AddSingleton<ITestOutputHelper>(this.Output);
 

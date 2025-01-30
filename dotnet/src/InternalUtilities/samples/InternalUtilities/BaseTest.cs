@@ -56,26 +56,10 @@ public abstract class BaseTest : TextWriter
 
     protected void AddChatCompletionToKernel(IKernelBuilder builder)
     {
-        if (this.UseOpenAIConfig)
-        {
-            builder.AddOpenAIChatCompletion(
-                TestConfiguration.OpenAI.ChatModelId,
-                TestConfiguration.OpenAI.ApiKey);
-        }
-        else if (!string.IsNullOrEmpty(this.ApiKey))
-        {
-            builder.AddAzureOpenAIChatCompletion(
-                TestConfiguration.AzureOpenAI.ChatDeploymentName,
-                TestConfiguration.AzureOpenAI.Endpoint,
-                TestConfiguration.AzureOpenAI.ApiKey);
-        }
-        else
-        {
-            builder.AddAzureOpenAIChatCompletion(
-                TestConfiguration.AzureOpenAI.ChatDeploymentName,
-                TestConfiguration.AzureOpenAI.Endpoint,
-                new AzureCliCredential());
-        }
+        builder.AddAzureOpenAIChatCompletion(
+            endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+            deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+            apiKey: TestConfiguration.AzureOpenAI.ApiKey);
     }
 
     protected BaseTest(ITestOutputHelper output, bool redirectSystemConsoleOutput = false)

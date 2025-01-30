@@ -20,10 +20,12 @@ public sealed class Step2_Add_Plugins(ITestOutputHelper output) : BaseTest(outpu
     public async Task AddPluginsAsync()
     {
         // Create a kernel with OpenAI chat completion
-        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
-        kernelBuilder.AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey);
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder()
+            .AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey);
+
         kernelBuilder.Plugins.AddFromType<TimeInformation>();
         kernelBuilder.Plugins.AddFromType<WidgetFactory>();
         Kernel kernel = kernelBuilder.Build();

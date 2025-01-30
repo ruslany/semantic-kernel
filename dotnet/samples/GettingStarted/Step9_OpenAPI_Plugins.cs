@@ -18,10 +18,11 @@ public sealed class Step9_OpenAPI_Plugins(ITestOutputHelper output) : BaseTest(o
     public async Task AddOpenAPIPluginsAsync()
     {
         // Create a kernel with OpenAI chat completion
-        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
-        kernelBuilder.AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey);
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder()
+            .AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey);
         Kernel kernel = kernelBuilder.Build();
 
         // Load OpenAPI plugin
@@ -62,7 +63,10 @@ public sealed class Step9_OpenAPI_Plugins(ITestOutputHelper output) : BaseTest(o
         collection.AddSingleton<IMechanicService>(new FakeMechanicService());
 
         var kernelBuilder = collection.AddKernel();
-        kernelBuilder.Services.AddOpenAIChatCompletion(TestConfiguration.OpenAI.ChatModelId, TestConfiguration.OpenAI.ApiKey);
+        kernelBuilder.Services.AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey);
 
         return collection.BuildServiceProvider();
     }

@@ -27,9 +27,10 @@ public class Step01_Processes(ITestOutputHelper output) : BaseTest(output, redir
     {
         // Create a kernel with a chat completion service
         Kernel kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey)
+            .AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey)
             .Build();
 
         // Create a process that will interact with the chat completion service

@@ -16,10 +16,11 @@ public sealed class Step7_Observability(ITestOutputHelper output) : BaseTest(out
     public async Task ObservabilityWithFiltersAsync()
     {
         // Create a kernel with OpenAI chat completion
-        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
-        kernelBuilder.AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey);
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder()
+            .AddAzureOpenAIChatCompletion(
+                endpoint: TestConfiguration.AzureOpenAI.Endpoint,
+                deploymentName: TestConfiguration.AzureOpenAI.DeploymentName,
+                apiKey: TestConfiguration.AzureOpenAI.ApiKey);
 
         kernelBuilder.Plugins.AddFromType<TimeInformation>();
 
